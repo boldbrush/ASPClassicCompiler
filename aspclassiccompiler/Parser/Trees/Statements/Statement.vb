@@ -7,6 +7,8 @@
 ' EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF 
 ' MERCHANTIBILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 '
+Imports System.Collections.Generic
+Imports System.Collections.ObjectModel
 
 ''' <summary>
 ''' A parse tree for a statement.

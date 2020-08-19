@@ -9,6 +9,8 @@
 '
 
 Imports System.Globalization
+Imports System.Text
+Imports System.IO
 
 ''' <summary>
 ''' A lexical analyzer for Visual Basic .NET. It produces a stream of lexical tokens.

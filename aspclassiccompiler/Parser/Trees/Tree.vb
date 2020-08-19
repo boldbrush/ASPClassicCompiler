@@ -8,6 +8,9 @@
 ' MERCHANTIBILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 '
 
+Imports System.Collections.Generic
+Imports System.Collections.ObjectModel
+
 ''' <summary>
 ''' The root class of all trees.
 ''' </summary>
