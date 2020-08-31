@@ -12,13 +12,19 @@ Prototype port to .NET Core by BoldBrush.
     - Open a linux shell
     - cd into the project folder
     - `make run` for a bare-bone ASP page test. 
-    - view the asp website at http://localhost:6001.
+    - view the asp website at `http://localhost:6001/index.asp`.
 3. To customize port and web root:
     - create a folder on your system and put some ASP pages in it
     - assign its path to $myWebRoot shell variable
     - cd into the project folder
     - `make run port=8765 root="$myWebRoot"` 
-    - view your custom ASP site at `http://localhost:8765`.
+    - view your custom ASP site at `http://localhost:8765/my-file.asp`.
+
+## What is supported
+
+Very few things, but all the ASP built-in objects are there. Session, cookies, Application.StaticObjects and Application.Contents may behave in funny ways.
+
+You need explicitly specify the path to a file. The server currently will not look for, say, `index.asp` and will exit with error.
 
 ## License
 
