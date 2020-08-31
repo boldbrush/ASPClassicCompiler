@@ -20,4 +20,6 @@ Prototype port to .NET Core by BoldBrush.
     - `make run port=8765 root="$myWebRoot"` 
     - view your custom ASP site at `http://localhost:8765`.
 
+## License
 
+Open the source code under the Apache 2.0 license. 
