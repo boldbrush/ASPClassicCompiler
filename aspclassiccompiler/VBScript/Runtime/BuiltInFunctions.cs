@@ -7,6 +7,14 @@ using Microsoft.VisualBasic;
 using System.Linq;
 #endif
 
+using System;
+using System.Diagnostics;
+// using System.Runtime.Remoting.Channels;
+// using System.Runtime.Remoting.Channels.Ipc;
+using System.Runtime.Serialization;
+using System.Threading;
+using System.Runtime.Remoting;
+
 namespace Dlrsoft.VBScript.Runtime
 {
     public class BuiltInFunctions
@@ -143,6 +151,7 @@ namespace Dlrsoft.VBScript.Runtime
         }
 
 
+        // TODO: check, is the method name a typo?
         public static object Createobject(string progId, string location)
         {
             Type type = Type.GetTypeFromProgID(progId);
@@ -157,7 +166,10 @@ namespace Dlrsoft.VBScript.Runtime
             }
             else
             {
-                return Activator.GetObject(type, location);
+                // TODO: unhack me: figure out what this is used for
+                throw new SystemException("Location is not currently supported.");
+                // return Activator.GetObject(type, location);
+                return null;
             }
         }
 #endif
@@ -585,7 +597,8 @@ namespace Dlrsoft.VBScript.Runtime
 
         public static object GetObject(object pathname, object className)
         {
-            return Interaction.GetObject((string)pathname, (string)className);
+            throw new NotImplementedException("Interaction.GetObject has been removed from dotnet core, along with remoting..");
+            // return Interaction.GetObject((string)pathname, (string)className);
         }
 #endif
         public static object GetRef(object procName)
@@ -630,7 +643,8 @@ namespace Dlrsoft.VBScript.Runtime
 
         public object InputBox(object prompt, object title, object defaultResponse, object xpos, object ypos, object helpfile, object context)
         {
-            return Interaction.InputBox(Convert.ToString(prompt), Convert.ToString(title), Convert.ToString(defaultResponse), Convert.ToInt32(xpos), Convert.ToInt32(ypos)); 
+            throw new NotImplementedException("Interaction.InputBox is not part of dotnet core.");
+            // return Interaction.InputBox(Convert.ToString(prompt), Convert.ToString(title), Convert.ToString(defaultResponse), Convert.ToInt32(xpos), Convert.ToInt32(ypos)); 
         }
 #endif
         public static object Instr(object string1, object string2)
@@ -892,7 +906,8 @@ namespace Dlrsoft.VBScript.Runtime
 
         public static object MsgBox(object prompt, object buttons, object title, object helpfile, object context)
         {
-            return Interaction.MsgBox(prompt, (MsgBoxStyle)buttons, title);
+            throw new NotImplementedException("Interaction.MsgBox is not part of dotnet core.");   
+            // return Interaction.MsgBox(prompt, (MsgBoxStyle)buttons, title);
         }
 #endif
         public static DateTime Now()

@@ -18,6 +18,7 @@ using Dlrsoft.VBScript.Binders;
 using Dlrsoft.VBScript.Compiler;
 using Dlrsoft.VBScript.Runtime;
 using Debug = System.Diagnostics.Debug;
+using Dlrsoft.VBScript.Parser;
 
 namespace Dlrsoft.VBScript.Compiler
 {
@@ -45,7 +46,7 @@ namespace Dlrsoft.VBScript.Compiler
             {
                 string methodName = ((VB.MethodDeclaration)s).Name.Name.ToLower();
                 scope.FunctionTable.Add(methodName);
-                ParameterExpression method = Expression.Parameter(typeof(object));
+                ParameterExpression method = System.Linq.Expressions.Expression.Parameter(typeof(object));
                 scope.Names[methodName] = method;
             }
             else if (s is VB.LocalDeclarationStatement)
@@ -84,7 +85,7 @@ namespace Dlrsoft.VBScript.Compiler
                 {
                     string name = v.Name.Name.ToLower();
 
-                    ParameterExpression p = Expression.Parameter(typeof(object), name);
+                    ParameterExpression p = System.Linq.Expressions.Expression.Parameter(typeof(object), name);
                     scope.Names.Add(name, p);
                 }
             }

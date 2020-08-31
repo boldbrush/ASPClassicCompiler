@@ -14,11 +14,13 @@ using System.Linq.Expressions;
 using System.Dynamic;
 using Dlrsoft.VBScript.Hosting;
 using Dlrsoft.VBScript.Compiler;
-using Dlrsoft.Asp.BuiltInObjects;
+// using Dlrsoft.Asp.BuiltInObjects;
 using System.Configuration;
+using Dlrsoft.VBScript;
+
 // using System.Web.Configuration;
 // using System
-namespace Dlrsoft.Asp
+namespace AspWebServer
 {
     public class AspHost
     {
@@ -86,7 +88,7 @@ namespace Dlrsoft.Asp
 
             if (_config.Trace)
             {
-                scope.SetVariable(VBScript.VBScript.TRACE_PARAMETER, new Dlrsoft.VBScript.Runtime.TraceHelper());
+                scope.SetVariable(VBScript.TRACE_PARAMETER, new Dlrsoft.VBScript.Runtime.TraceHelper());
             }
 
             return scope;

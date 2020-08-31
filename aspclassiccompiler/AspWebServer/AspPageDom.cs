@@ -1,24 +1,16 @@
-﻿//////////////////////////////////////////////////////////////////////////////
-// Created by: Li Chen
-// http://www.dotneteer.com/weblog
-// dotneteer@gmail.com
-// This is an experimental code. Please do not use in production environment.
-// April 22, 2009 V0.1
-/////////////////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
-using System.IO;
-using Microsoft.Scripting;
 using Dlrsoft.VBScript.Compiler;
+using Microsoft.Scripting;
 
-namespace Dlrsoft.Asp
+namespace AspWebServer
 {
     public class AspPageDom
     {
-        private string _pagePath;
+            private string _pagePath;
         private string _virtualRootPath;
         private List<string> _literals = new List<string>();
         private StringBuilder _sb;
@@ -133,12 +125,14 @@ namespace Dlrsoft.Asp
                         filePath = Path.Combine(Path.GetDirectoryName(parent), value);
                     break;
                 case "virtual":
-                    if (HttpContext.Current != null)
-                    {
-                        
-                        filePath = HttpContext.Current.Server.MapPath(value);
-                    }
-                    else if (!string.IsNullOrEmpty(_virtualRootPath))
+                    // HttpContext.Current is a .NET thing
+                    // if (HttpContext.Current != null)
+                    // {
+                    //     
+                    //     filePath = HttpContext.Current.Server.MapPath(value);
+                    // }
+                    // else 
+                    if (!string.IsNullOrEmpty(_virtualRootPath))
                     {
                         filePath = Path.Combine(_virtualRootPath, value);
                     }

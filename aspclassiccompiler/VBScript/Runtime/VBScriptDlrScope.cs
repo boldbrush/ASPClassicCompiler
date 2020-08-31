@@ -7,8 +7,8 @@ using System.Dynamic;
 #if USE35
 using Microsoft.Scripting.Ast;
 #else
-using System.Linq.Expressions;
 #endif
+using System.Linq.Expressions;
 
 namespace Dlrsoft.VBScript.Runtime
 {
@@ -20,22 +20,30 @@ namespace Dlrsoft.VBScript.Runtime
     //
     public sealed class VBScriptDlrScope : DynamicObject
     {
-        private readonly Scope _scope;
+        private readonly Microsoft.Scripting.Hosting.ScriptScope _scope;
+        // private readonly Scope _scope;
 
-        public VBScriptDlrScope(Scope scope)
+        // public VBScriptDlrScope(Scope scope)
+        public VBScriptDlrScope(Microsoft.Scripting.Hosting.ScriptScope scope)
         {
             _scope = scope;
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            return _scope.TryGetVariable(SymbolTable.StringToCaseInsensitiveId(binder.Name),
-                                     out result);
+            
+            // (new Microsoft.Scripting.ScopeStorage).GetScopeVariableIgnoreCase()
+            // Microsoft.Scripting.Runtime.
+            // Microsoft.Scripting.Hosting.ScriptScope
+            // return _scope.TryGetVariable(SymbolTable.StringToCaseInsensitiveId(binder.Name),
+            return _scope.TryGetVariable(binder.Name.ToLower(), out result);
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            _scope.SetVariable(SymbolTable.StringToId(binder.Name), value);
+            // DynamicObjectHelpers.SetMember(_scope, binder.Name, value); // can try this for SymbolTable replacement
+            // _scope.SetVariable(SymbolTable.StringToId(binder.Name), value);
+            _scope.SetVariable(binder.Name.ToLower(), value);
             return true;
         }
     }

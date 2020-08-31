@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Web;
-using ASPTypeLibrary;
+// using ASPTypeLibrary;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Scripting.ComInterop;
 
-namespace Dlrsoft.Asp.BuiltInObjects
+namespace AspWebServer.BuiltInObjects
 {
 	/// <summary>
 	/// The application object that is accessible from ASP code
@@ -15,10 +16,10 @@ namespace Dlrsoft.Asp.BuiltInObjects
 		private HttpContext _context;
 		private bool _locked = false;
 
-		public AspApplication()
-		{
-			_context=HttpContext.Current;
-		}
+		// public AspApplication()
+		// {
+		// 	_context=HttpContext.Current;
+		// }
 
 		public AspApplication(HttpContext context)
 		{
@@ -29,12 +30,13 @@ namespace Dlrsoft.Asp.BuiltInObjects
 
         public IVariantDictionary Contents
         {
-            get { return new AspVariantDictionary(_context.Application.Contents); }
+            get { return new AspVariantDictionary(_context.Items); }
+            // get { return new AspVariantDictionary(_context.Application.Contents); }
         }
 
         public IVariantDictionary StaticObjects
         {
-            get { return new AspStaticObjectsVariantDictionary(_context.Application.StaticObjects); }
+            get { return new AspStaticObjectsVariantDictionary(_context.Items); }
         }
 
         public bool Locked
@@ -44,20 +46,21 @@ namespace Dlrsoft.Asp.BuiltInObjects
 
         public void Lock()
         {
-            _context.Application.Lock();
+            
+            // _context.Application.Lock();
             _locked = true;
         }
 
         public void UnLock()
         {
-            _context.Application.UnLock();
+            // _context.Application.UnLock();
             _locked = false;
         }
 
         public object this[string key]
         {
-            get { return _context.Application[key]; }
-            set { _context.Application[key] = value; }
+            get { return this.Contents[key]; }
+            set { this.Contents[key] = value; }
         }
 
         public void let_Value(string bstrValue, object pvar)

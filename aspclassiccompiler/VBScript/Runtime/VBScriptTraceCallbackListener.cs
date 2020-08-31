@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Scripting;
+using Microsoft.Scripting.Runtime;
 using Microsoft.Scripting.Debugging;
+using Microsoft.Scripting.Utils;
 using System.Diagnostics;
 
 namespace Dlrsoft.VBScript.Runtime
@@ -11,7 +13,9 @@ namespace Dlrsoft.VBScript.Runtime
     {
         #region ITraceCallback Members
 
-        public void OnTraceEvent(TraceEventKind kind, string name, string sourceFileName, Microsoft.Scripting.SourceSpan sourceSpan, Microsoft.Scripting.Utils.Func<Microsoft.Scripting.IAttributesCollection> scopeCallback, object payload, object customPayload)
+        public void OnTraceEvent(TraceEventKind kind, string name, string sourceFileName, Microsoft.Scripting.SourceSpan sourceSpan, Func<IDictionary<object, object>> scopeCallback, object payload, object customPayload)
+        // public void OnTraceEvent(TraceEventKind kind, string name, string sourceFileName, Microsoft.Scripting.SourceSpan sourceSpan, Func<Microsoft.Scripting.IAttributesCollection> scopeCallback, object payload, object customPayload)
+        // public void OnTraceEvent(TraceEventKind kind, string name, string sourceFileName, Microsoft.Scripting.SourceSpan sourceSpan, Microsoft.Scripting.Utils.Func<Microsoft.Scripting.IAttributesCollection> scopeCallback, object payload, object customPayload)
         {
             switch (kind)
             {
@@ -21,7 +25,7 @@ namespace Dlrsoft.VBScript.Runtime
                     Trace.TraceInformation("{4} at {0} Line {1} column {2}-{3}", sourceFileName, sourceSpan.Start.Line, sourceSpan.Start.Column, sourceSpan.End.Column, kind);
                     if (scopeCallback != null)
                     {
-                        IAttributesCollection attr = scopeCallback();
+                        IDictionary<object, object> attr = scopeCallback();
                         if (attr != null)
                         {
                             Trace.TraceInformation("Attrs {0}", attr);

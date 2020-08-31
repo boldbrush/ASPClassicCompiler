@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 #endif
 
 using Dlrsoft.VBScript.Hosting;
+
 namespace Dlrsoft.VBScript
 {
     class Program
