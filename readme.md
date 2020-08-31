@@ -2,7 +2,7 @@
 
 [Original code](https://weblogs.asp.net/lichen/lessons-from-the-asp-classic-compiler-project) by Li Chen.
 
-Prototype port to .NET Core by BoldBrush.
+Prototype port to .NET Core by bijoutrouvaille @ BoldBrush.
 
 
 ## Running Instructions
@@ -24,7 +24,7 @@ Prototype port to .NET Core by BoldBrush.
 
 Very few things, but all the ASP built-in objects are there. Session, cookies, Application.StaticObjects and Application.Contents may behave in funny ways.
 
-You need explicitly specify the path to a file. The server currently will not look for, say, `index.asp` and will exit with error.
+You need to explicitly specify the path to a file in the URL. The server currently will not look for, say, `index.asp` on `/my/path/` and will exit with error.
 
 ## License
 
