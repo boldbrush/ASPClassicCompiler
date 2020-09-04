@@ -5,6 +5,7 @@
 <%
 
 	Dim oConn		
+  Dim Index		
 	Dim oRs		
 	Dim strConn
 
