@@ -15,9 +15,9 @@
 	' default sa account and password
 
 	Set oConn = Server.CreateObject("ADODB.Connection")
-	strConn="Provider=SQLOLEDB;User ID=sa;Initial Catalog=pubs;Data Source="& Request.ServerVariables("SERVER_NAME")
+	strConn="Provider=SQLOLEDB;User ID=sa; Password=Qq123123;Initial Catalog=pubs;Data Source="& Request.ServerVariables("SERVER_NAME")
     oConn.Open strConn
-	Set oRs = oConn.Execute("SELECT top 1 * FROM authors")
+	Set oRs = oConn.Execute("SELECT top 5 * FROM authors")
 
 %>
 
