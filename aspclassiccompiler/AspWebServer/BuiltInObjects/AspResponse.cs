@@ -121,22 +121,25 @@ namespace AspWebServer.BuiltInObjects
         {
             get
             {
-                throw new NotImplementedException();
+                // _context.Response.
+                // throw new NotImplementedException();
+                return _buffering;
             }
             // get { return _context.Response.Buffer; }
             // set { _context.Response.Buffer = value; }
             set
             {
-                throw new NotImplementedException();
+                // throw new NotImplementedException();
 
-                // if (!value)
-                // {
-                //     var bufferingFeature = _context.Features.Get<IHttpResponseBodyFeature>();
-                //     // bufferingFeature.DisableBuffering();
-                //     // return bufferingFeature == null;
-                //     bufferingFeature?.DisableBuffering();
-                //     _buffering = false;
-                // }
+                if (!value)
+                {
+                    
+                    var bufferingFeature = _context.Features.Get<IHttpResponseBodyFeature>();
+                    // bufferingFeature.DisableBuffering();
+                    // return bufferingFeature == null;
+                    bufferingFeature?.DisableBuffering();
+                    _buffering = false;
+                }
             }
         }
 

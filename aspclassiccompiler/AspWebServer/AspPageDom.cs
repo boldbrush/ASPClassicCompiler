@@ -61,38 +61,43 @@ namespace AspWebServer
             const string pattern = "<%(?<contents>.*?)%>|<!--\\s*#include\\s+(?<contents>.*?)\\s*-->|<script[^>]+runat=\"?server\"?[^>]*>(?<contents>.*?)</script>";
             Regex r = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             MatchCollection ms = r.Matches(aspFile);
+            
             int p1 = 0;
             int p2 = 0;
+            
             foreach (Match m in ms)
             {
                 p2 = m.Index;
                 if (p2 - p1 > 0)
                     appendBlock(pagePath, SourceUtil.GetSpan(lineRanges, p1, p2 - 1), GetListeral(aspFile, p1, p2), 1);
                 p1 = m.Index + m.Length;
-                string value = m.Value;
-                string contents = m.Groups["contents"].Value;
-                switch (value.Substring(0, 3))
+                
+                string value = m.Value.Trim();
+                string contents = m.Groups["contents"].Value.Trim();
+                
+                if (value.StartsWith("<!-"))
                 {
-                    case "<!-": //Include
-                        processInclude(pagePath, contents.ToLower());
-                        break;
-                    case "<%@": //Declaration. Ignore
-                        break;
-                    default:
-                        string temp = contents.Trim();
-                        if (!string.IsNullOrEmpty(temp))
+                    processInclude(pagePath, contents.ToLower());
+                }
+                else if (Regex.IsMatch(value, "^<%\\s*@"))
+                {
+                    
+                }
+                else
+                {
+                    string temp = contents.Trim();
+                    if (!string.IsNullOrEmpty(temp))
+                    {
+                        if (temp[0] == '=') //Expression
                         {
-                            if (temp[0] == '=') //Expression
-                            {
-                                contents = string.Format("response.Write({0})", temp.Substring(1).Trim());
-                                appendBlock(pagePath, SourceUtil.GetSpan(lineRanges, m.Index, p1 - 1), contents, 1);
-                            }
-                            else
-                            {
-                                appendBlock(pagePath, SourceUtil.GetSpan(lineRanges, m.Index, p1 - 1), contents, SourceUtil.GetLineCount(contents));
-                            }
+                            contents = string.Format("response.Write({0})", temp.Substring(1).Trim());
+                            appendBlock(pagePath, SourceUtil.GetSpan(lineRanges, m.Index, p1 - 1), contents, 1);
                         }
-                        break;
+                        else
+                        {
+                            appendBlock(pagePath, SourceUtil.GetSpan(lineRanges, m.Index, p1 - 1), contents, SourceUtil.GetLineCount(contents));
+                        }
+                    }
                 }
             }
             p2 = aspFile.Length;

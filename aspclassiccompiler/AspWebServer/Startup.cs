@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -46,7 +47,9 @@ namespace AspWebServer
         public void ConfigureServices(IServiceCollection services)
         {
             // services.AddControllers();
-            // services.TryAddSingleton<Microsoft.AspNetCore.DataProtection.IDataProtectionProvider, Microsoft.AspNetCore.DataProtection.>();
+            services.TryAddSingleton<Microsoft.AspNetCore.DataProtection.IDataProtectionProvider>(Microsoft.AspNetCore.DataProtection.DataProtectionProvider.Create(WebRoot));
+            // services.TryAddSingleton<Microsoft.AspNetCore.Http.Features.IHttpResponseBodyFeature>(new StreamResponseBodyFeature());
+            // services.TryAddSingleton<Microsoft.AspNetCore.Http.Features.B>(StreamResponseBodyFeature);
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -89,6 +92,7 @@ namespace AspWebServer
 
                 if (path.EndsWith(".asp") || path.EndsWith("/"))
                 {
+                    context.Request.Path = path;
                     context.Response.ContentType = "text/html; charset=UTF-8";
                     await handler.ProcessRequest(context);
                     return;
